@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4EA24C1B-3AF2-4EB0-AA98-62EAFB0C2682}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Frost.SharpMediaInfo</RootNamespace>
+    <AssemblyName>Frost.SharpMediaInfo</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\Frost.SharpMediaInfo.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\MediaFileCollection.cs" />
+    <Compile Include="LibraryInfo.cs" />
+    <Compile Include="MediaFileBase.cs" />
+    <Compile Include="MediaListFile.cs" />
+    <Compile Include="Output\EnumerableMedia.cs" />
+    <Compile Include="Output\Properties\Codecs\AudioCodecSettings.cs" />
+    <Compile Include="Output\Properties\Codecs\VideoCodecSettings.cs" />
+    <Compile Include="Output\Properties\CoverInfo.cs" />
+    <Compile Include="Output\Properties\Duration\FrameDuration.cs" />
+    <Compile Include="Output\Properties\General\MediaFileInfo.cs" />
+    <Compile Include="Output\Properties\General\GeneralInfo.cs" />
+    <Compile Include="Output\Properties\OriginalSourceInfo.cs" />
+    <Compile Include="Output\Properties\PartInfo.cs" />
+    <Compile Include="Output\Properties\General\Album.cs" />
+    <Compile Include="Output\Properties\General\Comic.cs" />
+    <Compile Include="Output\Properties\General\Performer.cs" />
+    <Compile Include="Output\Properties\General\Movie.cs" />
+    <Compile Include="Output\Properties\FileSizeInfo.cs" />
+    <Compile Include="Output\Properties\ChannelInfo.cs" />
+    <Compile Include="Output\Properties\BitRate\OverallBitRateInfo.cs" />
+    <Compile Include="Output\Properties\Interleave.cs" />
+    <Compile Include="Output\Properties\EncodingLibraryInfo.cs" />
+    <Compile Include="Output\Properties\Delay\DelayInfo.cs" />
+    <Compile Include="Output\Properties\Delay\GeneralDelayInfo.cs" />
+    <Compile Include="Output\Properties\Delay\VideoDelayInfo.cs" />
+    <Compile Include="Output\Properties\LanguageInfo.cs" />
+    <Compile Include="Output\Properties\Duration\ExtendedDurationInfo.cs" />
+    <Compile Include="Output\Properties\Duration\DurationInfo.cs" />
+    <Compile Include="Output\Properties\BitRate\BitRateInfo.cs" />
+    <Compile Include="Output\Properties\Codecs\GeneralCodec.cs" />
+    <Compile Include="Output\Properties\Duration\GeneralDurationInfo.cs" />
+    <Compile Include="Output\Properties\FrameRate\FrameRateInfo.cs" />
+    <Compile Include="Output\Properties\Codecs\Codec.cs" />
+    <Compile Include="Output\Properties\Codecs\TextCodec.cs" />
+    <Compile Include="Output\Properties\Codecs\AudioCodec.cs" />
+    <Compile Include="Output\Properties\Formats\AudioFormat.cs" />
+    <Compile Include="Output\Properties\Formats\Format.cs" />
+    <Compile Include="Output\Media.cs" />
+    <Compile Include="Output\Properties\Codecs\CodecID.cs" />
+    <Compile Include="Output\MediaAudio.cs" />
+    <Compile Include="MediaFile.cs" />
+    <Compile Include="MediaInfoEnums.cs" />
+    <Compile Include="MediaInfoList.cs" />
+    <Compile Include="Options\MpegTS.cs" />
+    <Compile Include="Output\MediaGeneral.cs" />
+    <Compile Include="Output\MediaImage.cs" />
+    <Compile Include="Output\MediaMenu.cs" />
+    <Compile Include="Output\MediaOther.cs" />
+    <Compile Include="Output\MediaText.cs" />
+    <Compile Include="Output\MediaVideo.cs" />
+    <Compile Include="Output\Properties\Formats\GeneralFormat.cs" />
+    <Compile Include="Output\Properties\Formats\FormatWithWrapping.cs" />
+    <Compile Include="Output\Properties\Formats\VideoFormat.cs" />
+    <Compile Include="Output\Properties\Codecs\VideoCodec.cs" />
+    <Compile Include="Output\Properties\SizeInfo.cs" />
+    <Compile Include="Output\Properties\ServiceInfo.cs" />
+    <Compile Include="Output\Properties\StreamSizeInfo.cs" />
+    <Compile Include="Output\Properties\Info.cs" />
+    <Compile Include="Output\Properties\General\Season.cs" />
+    <Compile Include="Output\Properties\General\Track.cs" />
+    <Compile Include="Output\Properties\FrameRate\VideoFrameRateInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Options\Settings.cs" />
+    <Compile Include="Options\SSH.cs" />
+    <Compile Include="Options\SSL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\ThirdParty\MediaInfo\x64\MediaInfo.dll">
+      <Link>x64\MediaInfo.dll</Link>
+    </Content>
+    <Content Include="..\ThirdParty\MediaInfo\x86\MediaInfo.dll">
+      <Link>x86\MediaInfo.dll</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
