@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Frost.SharpMediaInfo.Collections;
+using Frost.SharpMediaInfo.Native;
 
 namespace Frost.SharpMediaInfo {
 
@@ -18,10 +19,10 @@ namespace Frost.SharpMediaInfo {
         public MediaInfoList() {
             bool is64 = Environment.Is64BitProcess;
             try {
-                _handle = is64 ? MediaInfoList_New_x64() : MediaInfoList_New();
+                _handle = is64 ? MediaListInfo64.New() : MediaListInfo.New();
             }
             catch (BadImageFormatException) {
-                _handle = is64 ? MediaInfoList_New() : MediaInfoList_New_x64();
+                _handle = is64 ? MediaListInfo64.New() : MediaListInfo.New();
             }
             catch (DllNotFoundException e) {
                 _noDll = true;
@@ -52,38 +53,6 @@ namespace Frost.SharpMediaInfo {
                 _files.Add(new MediaListFile(_handle, fileNum, cacheInform, allInfoCache));
             }
         }
-
-        #endregion
-
-        #region P/Invoke C Functions x86
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoList_Open(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string fileName, IntPtr options);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoList_New();
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern void MediaInfoList_Delete(IntPtr handle);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern void MediaInfoList_Close(IntPtr handle, IntPtr filePos);
-
-        #endregion
-
-        #region P/Invoke C Functions x64
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoList_Open")]
-        private static extern IntPtr MediaInfoList_Open_x64(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string fileName, IntPtr options);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoList_New")]
-        private static extern IntPtr MediaInfoList_New_x64();
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoList_Delete")]
-        private static extern void MediaInfoList_Delete_x64(IntPtr handle);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoList_Close")]
-        private static extern void MediaInfoList_Close_x64(IntPtr handle, IntPtr filePos);
 
         #endregion
 
@@ -135,10 +104,10 @@ namespace Frost.SharpMediaInfo {
             const int ALL_FILES = -1;
 
             if (Environment.Is64BitProcess) {
-                MediaInfoList_Close_x64(_handle, (IntPtr) ALL_FILES);
+                MediaListInfo64.Close(_handle, (IntPtr) ALL_FILES);
             }
             else {
-                MediaInfoList_Close(_handle, (IntPtr) ALL_FILES);
+                MediaListInfo.Close(_handle, (IntPtr) ALL_FILES);
             }
         }
         #endregion
@@ -225,9 +194,9 @@ namespace Frost.SharpMediaInfo {
         /// <returns>Number	of files successfuly added.</returns>
         private int Open(string pathNames, InfoFileOptions options = InfoFileOptions.Nothing) {
             if (Environment.Is64BitProcess) {
-                return (int) MediaInfoList_Open_x64(_handle, pathNames, (IntPtr) options);
+                return (int) MediaListInfo64.Open(_handle, pathNames, (IntPtr) options);
             }
-            return (int) MediaInfoList_Open(_handle, pathNames, (IntPtr) options);
+            return (int) MediaListInfo.Open(_handle, pathNames, (IntPtr) options);
         }
 
         #endregion
@@ -254,10 +223,10 @@ namespace Frost.SharpMediaInfo {
 
                 if (!_noDll) {
                     if (Environment.Is64BitProcess) {
-                        MediaInfoList_Delete_x64(_handle);
+                        MediaListInfo64.Delete(_handle);
                     }
                     else {
-                        MediaInfoList_Delete(_handle);
+                        MediaListInfo.Delete(_handle);
                     }
                 }
                 IsDisposed = true;

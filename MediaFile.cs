@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Frost.SharpMediaInfo.Native;
 
 namespace Frost.SharpMediaInfo {
 
@@ -23,106 +24,6 @@ namespace Frost.SharpMediaInfo {
             IsOpen = Open(filePath);
             InitializeMediaStreams(cacheInfom, allInfoCache);
         }
-
-        #region P/Invoke C funtions x86
-
-        //Import of DLL functions. DO NOT USE until you know what you do (MediaInfo DLL do NOT use CoTaskMemAlloc to allocate memory)
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_New();
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern void MediaInfo_Delete(IntPtr handle);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_Open(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string fileName);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoA_Open(IntPtr handle, IntPtr fileName);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern void MediaInfo_Close(IntPtr handle);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_Inform(IntPtr handle, IntPtr reserved);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoA_Inform(IntPtr handle, IntPtr reserved);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_GetI(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoA_GetI(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_Get(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, [MarshalAs(UnmanagedType.LPWStr)] string parameter, IntPtr kindOfInfo, IntPtr kindOfSearch);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoA_Get(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo, IntPtr kindOfSearch);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_Option(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string option, [MarshalAs(UnmanagedType.LPWStr)] string value);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfoA_Option(IntPtr handle, IntPtr option, IntPtr value);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_State_Get(IntPtr handle);
-
-        [DllImport("x86/MediaInfo.dll")]
-        private static extern IntPtr MediaInfo_Count_Get(IntPtr handle, IntPtr streamKind, IntPtr streamNumber);
-
-        #endregion
-
-        #region P/Invoke C funtions x64
-
-        //Import of DLL functions. DO NOT USE until you know what you do (MediaInfo DLL do NOT use CoTaskMemAlloc to allocate memory)
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_New")]
-        private static extern IntPtr MediaInfo_New_x64();
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Delete")]
-        private static extern void MediaInfo_Delete_x64(IntPtr handle);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Open")]
-        private static extern IntPtr MediaInfo_Open_x64(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string fileName);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoA_Open")]
-        private static extern IntPtr MediaInfoA_Open_x64(IntPtr handle, IntPtr fileName);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Close")]
-        private static extern void MediaInfo_Close_x64(IntPtr handle);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Inform")]
-        private static extern IntPtr MediaInfo_Inform_x64(IntPtr handle, IntPtr reserved);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoA_Inform")]
-        private static extern IntPtr MediaInfoA_Inform_x64(IntPtr handle, IntPtr reserved);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_GetI")]
-        private static extern IntPtr MediaInfo_GetI_x64(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoA_GetI")]
-        private static extern IntPtr MediaInfoA_GetI_x64(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Get")]
-        private static extern IntPtr MediaInfo_Get_x64(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, [MarshalAs(UnmanagedType.LPWStr)] string parameter, IntPtr kindOfInfo, IntPtr kindOfSearch);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoA_Get")]
-        private static extern IntPtr MediaInfoA_Get_x64(IntPtr handle, IntPtr streamKind, IntPtr streamNumber, IntPtr parameter, IntPtr kindOfInfo, IntPtr kindOfSearch);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Option")]
-        private static extern IntPtr MediaInfo_Option_x64(IntPtr handle, [MarshalAs(UnmanagedType.LPWStr)] string option, [MarshalAs(UnmanagedType.LPWStr)] string value);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfoA_Option")]
-        private static extern IntPtr MediaInfoA_Option_x64(IntPtr handle, IntPtr option, IntPtr value);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_State_Get")]
-        private static extern IntPtr MediaInfo_State_Get_x64(IntPtr handle);
-
-        [DllImport("x64/MediaInfo.dll", EntryPoint = "MediaInfo_Count_Get")]
-        private static extern IntPtr MediaInfo_Count_Get_x64(IntPtr handle, IntPtr streamKind, IntPtr streamNumber);
-
-        #endregion
 
         #region IDisposable
 
@@ -154,18 +55,18 @@ namespace Frost.SharpMediaInfo {
             IntPtr handle;
             if (Environment.Is64BitProcess) {
                 try {
-                    handle = MediaInfo_New_x64();
+                    handle = MediaInfo64.New();
                 }
                 catch (BadImageFormatException) {
-                    handle = MediaInfo_New();
+                    handle = MediaInfo.New();
                 }
             }
             else {
                 try {
-                    handle = MediaInfo_New();
+                    handle = MediaInfo.New();
                 }
                 catch (BadImageFormatException) {
-                    handle = MediaInfo_New_x64();
+                    handle = MediaInfo64.New();
                 }
             }
             return handle;
@@ -173,19 +74,19 @@ namespace Frost.SharpMediaInfo {
 
         private void CloseHandle(IntPtr handle) {
             if (Environment.Is64BitProcess) {
-                MediaInfo_Close_x64(handle);
+                MediaInfo64.Close(handle);
             }
             else {
-                MediaInfo_Close(handle);
+                MediaInfo.Close(handle);
             }
         }
 
         private void DeleteHandle(IntPtr handle) {
             if (Environment.Is64BitProcess) {
-                MediaInfo_Delete_x64(handle);
+                MediaInfo64.Delete(handle);
             }
             else {
-                MediaInfo_Delete(handle);
+                MediaInfo.Delete(handle);
             }
         }
 
@@ -195,12 +96,12 @@ namespace Frost.SharpMediaInfo {
         protected bool Open(string fileName) {
             if (MustUseAnsi) {
                 IntPtr fileNamePtr = Marshal.StringToHGlobalAnsi(fileName);
-                int toReturn = (int) (Environment.Is64BitProcess ? MediaInfoA_Open_x64(Handle, fileNamePtr) : MediaInfoA_Open(Handle, fileNamePtr));
+                int toReturn = (int) (Environment.Is64BitProcess ? MediaInfo64.OpenAnsi(Handle, fileNamePtr) : MediaInfo.OpenAnsi(Handle, fileNamePtr));
                 Marshal.FreeHGlobal(fileNamePtr);
 
                 return toReturn == 1;
             }
-            return (int) (Environment.Is64BitProcess ? MediaInfo_Open_x64(Handle, fileName) : MediaInfo_Open(Handle, fileName)) == 1;
+            return (int) (Environment.Is64BitProcess ? MediaInfo64.Open(Handle, fileName) : MediaInfo.Open(Handle, fileName)) == 1;
         }
 
         /// <summary>Get all details about a file in one string</summary>
@@ -210,9 +111,9 @@ namespace Frost.SharpMediaInfo {
             ThrowIfDisposed();
 
             if (MustUseAnsi) {
-                return Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfoA_Inform_x64(Handle, (IntPtr) 0) : MediaInfoA_Inform(Handle, (IntPtr) 0));
+                return Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfo64.InformAnsi(Handle, (IntPtr) 0) : MediaInfo.InformAnsi(Handle, (IntPtr) 0));
             }
-            return Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo_Inform_x64(Handle, (IntPtr) 0) : MediaInfo_Inform(Handle, (IntPtr) 0));
+            return Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo64.Inform(Handle, (IntPtr) 0) : MediaInfo.Inform(Handle, (IntPtr) 0));
         }
 
         /// <summary>Configure or get information about MediaInfoLib</summary>
@@ -226,14 +127,14 @@ namespace Frost.SharpMediaInfo {
                 IntPtr optionPtr = Marshal.StringToHGlobalAnsi(option);
                 IntPtr valuePtr = Marshal.StringToHGlobalAnsi(value);
 
-                string toReturn = Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfoA_Option_x64(Handle, optionPtr, valuePtr) : MediaInfoA_Option(Handle, optionPtr, valuePtr));
+                string toReturn = Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfo64.OptionAnsi(Handle, optionPtr, valuePtr) : MediaInfo.OptionAnsi(Handle, optionPtr, valuePtr));
 
                 Marshal.FreeHGlobal(optionPtr);
                 Marshal.FreeHGlobal(valuePtr);
                 return toReturn;
             }
 
-            return Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo_Option_x64(Handle, option, value) : MediaInfo_Option(Handle, option, value));
+            return Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo64.Option(Handle, option, value) : MediaInfo.Option(Handle, option, value));
         }
 
         /// <summary>Get the state of the library</summary>
@@ -249,7 +150,7 @@ namespace Frost.SharpMediaInfo {
         public override int StateGet() {
             ThrowIfDisposed();
 
-            return (int) (Environment.Is64BitProcess ? MediaInfo_State_Get_x64(Handle) : MediaInfo_State_Get(Handle));
+            return (int) (Environment.Is64BitProcess ? MediaInfo64.StateGet(Handle) : MediaInfo.StateGet(Handle));
         }
 
         /// <summary>Get a piece of information about a file (parameter is an integer)</summary>
@@ -265,14 +166,14 @@ namespace Frost.SharpMediaInfo {
             if (MustUseAnsi) {
                 IntPtr parameterPtr = Marshal.StringToHGlobalAnsi(parameter);
                 string toReturn = Marshal.PtrToStringAnsi(Environment.Is64BitProcess 
-                                                                ? MediaInfoA_Get_x64(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameterPtr, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch)
-                                                                : MediaInfoA_Get(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameterPtr, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch));
+                                                                ? MediaInfo64.GetAnsi(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameterPtr, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch)
+                                                                : MediaInfo.GetAnsi(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameterPtr, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch));
                 Marshal.FreeHGlobal(parameterPtr);
                 return toReturn;
             }
             return Marshal.PtrToStringUni(Environment.Is64BitProcess 
-                                                ? MediaInfo_Get_x64(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameter, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch)
-                                                : MediaInfo_Get(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameter, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch));
+                                                ? MediaInfo64.Get(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameter, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch)
+                                                : MediaInfo.Get(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, parameter, (IntPtr) kindOfInfo, (IntPtr) kindOfSearch));
         }
 
         /// <summary>Get a piece of information about a file (parameter is an integer)</summary>
@@ -285,8 +186,8 @@ namespace Frost.SharpMediaInfo {
             ThrowIfDisposed();
 
             return MustUseAnsi
-                ? Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfoA_GetI_x64(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo) : MediaInfoA_GetI(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo))
-                : Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo_GetI_x64(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo) : MediaInfo_GetI(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo));
+                ? Marshal.PtrToStringAnsi(Environment.Is64BitProcess ? MediaInfo64.GetIAnsi(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo) : MediaInfo.GetIAnsi(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo))
+                : Marshal.PtrToStringUni(Environment.Is64BitProcess ? MediaInfo64.GetI(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo) : MediaInfo.GetI(Handle, (IntPtr) streamKind, (IntPtr) streamNumber, (IntPtr) parameter, (IntPtr) kindOfInfo));
         }
 
         /// <summary>Count of streams of a stream kind or count of piece of information in this stream.</summary>
@@ -296,7 +197,7 @@ namespace Frost.SharpMediaInfo {
         public override int CountGet(StreamKind streamKind, int streamNumber = -1) {
             ThrowIfDisposed();
 
-            return (int) (Environment.Is64BitProcess ? MediaInfo_Count_Get_x64(Handle, (IntPtr) streamKind, (IntPtr) streamNumber) : MediaInfo_Count_Get(Handle, (IntPtr) streamKind, (IntPtr) streamNumber));
+            return (int) (Environment.Is64BitProcess ? MediaInfo64.CountGet(Handle, (IntPtr) streamKind, (IntPtr) streamNumber) : MediaInfo.CountGet(Handle, (IntPtr) streamKind, (IntPtr) streamNumber));
         }
 
         #endregion

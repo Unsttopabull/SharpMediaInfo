@@ -50,6 +50,10 @@
     <Compile Include="LibraryInfo.cs" />
     <Compile Include="MediaFileBase.cs" />
     <Compile Include="MediaListFile.cs" />
+    <Compile Include="Native\MediaListInfo.cs" />
+    <Compile Include="Native\MediaInfo_x64.cs" />
+    <Compile Include="Native\MediaInfo.cs" />
+    <Compile Include="Native\MediaListInfo64.cs" />
     <Compile Include="Output\EnumerableMedia.cs" />
     <Compile Include="Output\Properties\Codecs\AudioCodecSettings.cs" />
     <Compile Include="Output\Properties\Codecs\VideoCodecSettings.cs" />
@@ -111,14 +115,6 @@
     <Compile Include="Options\Settings.cs" />
     <Compile Include="Options\SSH.cs" />
     <Compile Include="Options\SSL.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\ThirdParty\MediaInfo\x64\MediaInfo.dll">
-      <Link>x64\MediaInfo.dll</Link>
-    </Content>
-    <Content Include="..\ThirdParty\MediaInfo\x86\MediaInfo.dll">
-      <Link>x86\MediaInfo.dll</Link>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
